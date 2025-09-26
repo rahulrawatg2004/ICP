@@ -1,0 +1,66 @@
+# 34. Find First and Last Position of Element in Sorted Array
+ public int[] searchRange(int[] nums, int target) {
+        int startind = -1;
+        int lastind = -1;
+        int arr[] = new int[2];
+        arr[0] = -1;
+        arr[1] = -1;
+        for(int i=0;i<nums.length;i++){
+            if(nums[i]==target){
+                if(startind==-1){
+                    startind = i;
+                }
+                lastind = i;
+            }
+        }
+        arr[0] = startind;
+        arr[1] = lastind;
+        return arr;
+        
+    }
+
+# 239. Sliding Window Maximum
+import java.util.*;
+
+class Solution {
+    public int[] maxSlidingWindow(int[] nums, int k) {
+        int n = nums.length;
+        int[] ans = new int[n - k + 1];
+        Deque<Integer> dq = new LinkedList<>();
+        
+        for (int i = 0; i < n; i++) {
+            while (!dq.isEmpty() && dq.peekFirst() <= i - k) {
+                dq.pollFirst();
+            }
+            while (!dq.isEmpty() && nums[dq.peekLast()] < nums[i]) {
+                dq.pollLast();
+            }
+            dq.offerLast(i);
+            if (i >= k - 1) {
+                ans[i - k + 1] = nums[dq.peekFirst()];
+            }
+        }
+        return ans;
+    }
+}
+
+# 452. Minimum Number of Arrows to Burst Balloons
+
+class Solution {
+    public int findMinArrowShots(int[][] points) {
+        if (points.length == 0) return 0;
+        Arrays.sort(points, (a, b) -> Integer.compare(a[1], b[1]));
+
+        int arrows = 1;
+        int endpoint = points[0][1];
+
+        for (int i = 1; i < points.length; i++) {
+            if (points[i][0] > endpoint) {
+                arrows++;
+                endpoint = points[i][1];
+            }
+        }
+
+        return arrows;
+    }
+}
