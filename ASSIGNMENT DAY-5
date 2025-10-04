@@ -1,0 +1,107 @@
+# 452. Minimum Number of Arrows to Burst Balloons
+
+class Solution {
+    public int findMinArrowShots(int[][] points) {
+        if (points.length == 0) return 0;
+        Arrays.sort(points, (a, b) -> Integer.compare(a[1], b[1]));
+
+        int arrows = 1;
+        int endpoint = points[0][1];
+
+        for (int i = 1; i < points.length; i++) {
+            if (points[i][0] > endpoint) {
+                arrows++;
+                endpoint = points[i][1];
+            }
+        }
+
+        return arrows;
+    }
+}
+
+# 435. Non-overlapping Intervals
+
+class Solution {
+    public int eraseOverlapIntervals(int[][] intervals) {
+        Arrays.sort(intervals,(a,b)->Integer.compare(a[1],b[1]));
+        int overlapping = 0;
+        int endpoint = intervals[0][1];
+        for(int i=1;i<intervals.length;i++){
+             if(intervals[i][0]<endpoint){
+                overlapping++;
+                //endpoint = intervals[i][1];
+            }else{
+                endpoint = intervals[i][1];
+            }
+        }
+        return overlapping;
+    }
+}
+
+# 406. Queue Reconstruction by Height
+
+class Solution {
+    public int[][] reconstructQueue(int[][] people) {
+        Arrays.sort(people, (a, b) -> {
+            if (a[0] == b[0]) {
+                return a[1] - b[1]; 
+            }
+            return b[0] - a[0]; 
+        });
+        List<int[]> result = new LinkedList<>();
+        for (int[] person : people) {
+            result.add(person[1], person);
+        }
+        return result.toArray(new int[people.length][2]);
+    
+    }
+}
+
+# 860. Lemonade Change
+
+class Solution {
+    public boolean lemonadeChange(int[] bills) {
+        int five = 0, ten = 0;
+        
+        for (int bill : bills) {
+            if (bill == 5) {
+                five++;
+            } else if (bill == 10) {
+                if (five == 0) return false;
+                five--;
+                ten++;
+            } else { // bill == 20
+                if (ten > 0 && five > 0) { 
+                    ten--;
+                    five--;
+                } else if (five >= 3) {
+                    five -= 3;
+                } else {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+}
+
+# 
+5.	Boats to Save People (881)
+
+class Solution {
+    public int numRescueBoats(int[] people, int limit) {
+         Arrays.sort(people);
+        int i = 0, j = people.length - 1;
+        int boats = 0;
+        
+        while (i <= j) {
+            if (people[i] + people[j] <= limit) {
+                i++; 
+            }
+            j--;    
+            boats++;
+        }
+        
+        return boats;
+    }
+}
